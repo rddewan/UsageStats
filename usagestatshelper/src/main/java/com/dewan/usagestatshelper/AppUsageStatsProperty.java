@@ -1,6 +1,6 @@
 package com.dewan.usagestatshelper;
 
-public class AppUsageStats {
+public class AppUsageStatsProperty {
     private String packageName;
     private long totalTimeInForeground;
 

@@ -8,7 +8,6 @@ import android.os.Build;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,8 +55,8 @@ public class UsageStatsHelper {
 
     }
 
-    public static ArrayList<AppUsageStats> getAppUsageStatsList(SortedMap sortedMap) {
-        ArrayList<AppUsageStats> list = new ArrayList<>();
+    public static ArrayList<AppUsageStatsProperty> getAppUsageStatsList(SortedMap sortedMap) {
+        ArrayList<AppUsageStatsProperty> list = new ArrayList<>();
         if (!sortedMap.isEmpty()) {
             Set set = sortedMap.entrySet();
             for (Object o : set) {
@@ -65,7 +64,7 @@ public class UsageStatsHelper {
                     Map.Entry entry = (Map.Entry) o;
                     long key = (long) entry.getKey();
                     UsageStats value = (UsageStats) entry.getValue();
-                    AppUsageStats appUsageStats = new AppUsageStats();
+                    AppUsageStatsProperty appUsageStats = new AppUsageStatsProperty();
                     appUsageStats.setPackageName(value.getPackageName());
                     appUsageStats.setTotalTimeInForeground(value.getTotalTimeInForeground());
                     list.add(appUsageStats);
