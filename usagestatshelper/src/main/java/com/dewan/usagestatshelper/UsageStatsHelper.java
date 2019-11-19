@@ -4,6 +4,9 @@ package com.dewan.usagestatshelper;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
@@ -16,6 +19,7 @@ import java.util.TreeMap;
 
 public class UsageStatsHelper {
     private static final String TAG = "UsageStatsHelper";
+    private static PackageManager packageManager;
 
     public static boolean getAppUsageStatsPermission(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -67,6 +71,9 @@ public class UsageStatsHelper {
                     AppUsageStatsProperty appUsageStats = new AppUsageStatsProperty();
                     appUsageStats.setPackageName(value.getPackageName());
                     appUsageStats.setTotalTimeInForeground(value.getTotalTimeInForeground());
+                    appUsageStats.setAppName(getAppName(value.getPackageName()));
+                    appUsageStats.setAppIcon(getAppIconByName(value.getPackageName()));
+
                     list.add(appUsageStats);
                 } catch (Exception er) {
                     Log.e(TAG, "getAppUsageStatsList:" + er.getLocalizedMessage());
@@ -77,4 +84,38 @@ public class UsageStatsHelper {
         return list;
 
     }
+
+    private static String getAppName(String packageName) {
+        String appName = "";
+        try {
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(packageName,PackageManager.GET_META_DATA);
+            appName = (String) packageManager.getApplicationLabel(applicationInfo);
+        } catch (PackageManager.NameNotFoundException er) {
+            Log.e(TAG, er.getMessage());
+        }
+        return appName;
+    }
+
+    private static Drawable getAppIconByName(String packageName) {
+        Drawable appIcon = null;
+        try {
+            appIcon = packageManager.getApplicationIcon(packageName);
+        } catch (PackageManager.NameNotFoundException er) {
+            Log.e(TAG, er.getMessage());
+        }
+        return appIcon;
+    }
+
+    private static PackageManager getPackageManager() {
+        return packageManager;
+    }
+
+    /*
+    set the package manager before you access any static method
+     */
+    public static void setPackageManager(PackageManager packageManager) {
+        UsageStatsHelper.packageManager = packageManager;
+    }
 }
+
+
