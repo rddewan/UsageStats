@@ -2,6 +2,8 @@ package com.dewan.usagestatshelper;
 
 import android.graphics.drawable.Drawable;
 
+import java.util.Comparator;
+
 public class AppUsageStatsProperty {
     private String appName;
     private String packageName;
@@ -39,4 +41,11 @@ public class AppUsageStatsProperty {
     public void setAppIcon(Drawable appIcon) {
         this.appIcon = appIcon;
     }
+
+    public static Comparator<AppUsageStatsProperty> totalUsageTimeComparator = new Comparator<AppUsageStatsProperty>() {
+        @Override
+        public int compare(AppUsageStatsProperty t0, AppUsageStatsProperty t1) {
+            return Double.compare(t1.getTotalTimeInForeground(),t0.getTotalTimeInForeground());
+        }
+    };
 }
