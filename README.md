@@ -1,6 +1,10 @@
+UsageStats Android Library to get app usage stats
+
 1. add maven { url 'https://jitpack.io' } to top level gradle build
-<br/>
+
+```
 allprojects {
+
     repositories {
         google()
         jcenter()
@@ -8,22 +12,30 @@ allprojects {
 
     }
 }
-<br/>
+```
+
 2. add dependencies  TAG = check for the current version
+```
 implementation 'com.github.rddewan:UsageStats:TAG'
+```
 
-3. set the package manager
+3. set the package manager. These setter must be set before accessing any other method
+```
 UsageStatsHelper.setPackageManager(context.getPackageManager());
+```
 
-<br/>
 4. get the sorted map
-<br/>
+```
 SortedMap<Long, UsageStats> mySortedMap = UsageStatsHelper.getForegroundApp(context);
+
 //check for empty sorted map
+
 if (!mySortedMap.isEmpty()) {
     ArrayList<AppUsageStatsProperty> appStatsLists = UsageStatsHelper.getAppUsageStatsList(mySortedMap);
+    
     //sort array list
     Collections.sort(appStatsLists,AppUsageStatsProperty.totalUsageTimeComparator);
+    
     AppUsageStatsProperty property = appStatsLists.get(0);
     Log.e(TAG, "MAX: " + property.getTotalTimeInForeground());
 
@@ -48,3 +60,4 @@ if (!mySortedMap.isEmpty()) {
 
 
 }
+```
