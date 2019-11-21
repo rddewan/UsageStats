@@ -1,4 +1,6 @@
-UsageStats Android Library to get app usage stats
+#UsageStats Android Library to get app usage stats
+
+[![](https://jitpack.io/v/rddewan/UsageStats.svg)](https://jitpack.io/#rddewan/UsageStats)
 
 1. add maven { url 'https://jitpack.io' } to top level gradle build
 
