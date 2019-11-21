@@ -1,5 +1,5 @@
 1. add maven { url 'https://jitpack.io' } to top level gradle build
-
+<br/>
 allprojects {
     repositories {
         google()
@@ -8,14 +8,16 @@ allprojects {
 
     }
 }
-
+<br/>
 2. add dependencies  TAG = check for the current version
 implementation 'com.github.rddewan:UsageStats:TAG'
 
 3. set the package manager
 UsageStatsHelper.setPackageManager(context.getPackageManager());
 
+<br/>
 4. get the sorted map
+<br/>
 SortedMap<Long, UsageStats> mySortedMap = UsageStatsHelper.getForegroundApp(context);
 //check for empty sorted map
 if (!mySortedMap.isEmpty()) {
