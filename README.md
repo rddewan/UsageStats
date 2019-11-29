@@ -26,7 +26,49 @@ implementation 'com.github.rddewan:UsageStats:TAG'
 UsageStatsHelper.setPackageManager(context.getPackageManager());
 ```
 
-4. get the sorted map
+4. set permission
+```
+<uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+```
+
+5. request runtime permission
+```
+private void checkUsageStatsPermission() {
+        boolean isPermissionGranted = UsageStatsHelper.getAppUsageStatsPermission(getActivity());
+        if (!isPermissionGranted) {
+            askForUsageStatsPermission();
+        } else {
+            getUsageStats();
+        }
+    }
+
+private void askForUsageStatsPermission() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
+        builder.setTitle("Permission");
+        builder.setMessage("Please Provide Usage Stats App Permission");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                startActivityForResult(intent, USAGE_STATS_PERMISSION);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                checkUsageStatsPermission();
+            }
+        });
+        builder.show();
+    }
+```
+
+6. get the sorted map
 ```
 SortedMap<Long, UsageStats> mySortedMap = UsageStatsHelper.getForegroundApp(context);
 
